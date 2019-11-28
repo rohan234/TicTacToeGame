@@ -5,21 +5,41 @@ import java.awt.event.KeyListener;
 import javax.swing.JFrame;
 
 
+
 public class MainFrame extends JFrame implements KeyListener{
     public static MainDraw draw;
 
-    public final static int DIM = 3; //Dimensions
+    final static int FRAME_PADDING = 20;
+    final static int TEXT_WIDTH = 400;
+    
+    Marker highlight = new Marker();
     
     public void keyPressed(KeyEvent e) {
     	System.out.println("keyPressed");
     }
 
+    void updateVisuals() {
+    	Board.printBoard(Board.gameBoard);
+    	MainFrame.draw.repaint();
+    }
+    
     public void keyReleased(KeyEvent e) {
     	
-        if(e.getKeyCode() == KeyEvent.VK_SPACE) {
-        	Board.printBoard();
-        	MainFrame.draw.repaint();
-        } 
+        	if(e.getKeyCode() == KeyEvent.VK_UP) {
+            	highlight.moveUp();
+            	updateVisuals();
+            } else if(e.getKeyCode() == KeyEvent.VK_DOWN) {
+            	highlight.moveDown();
+            	updateVisuals();
+            } else if(e.getKeyCode() == KeyEvent.VK_LEFT) {
+            	highlight.moveLeft();
+            	updateVisuals();
+            } else if(e.getKeyCode() == KeyEvent.VK_RIGHT) {
+            	highlight.moveRight();
+            	updateVisuals();
+            } else if(e.getKeyCode() == KeyEvent.VK_SPACE) {
+            	updateVisuals();
+            } 
         
     }
     
@@ -44,10 +64,10 @@ public class MainFrame extends JFrame implements KeyListener{
         	public void run() {
                 
             	MainFrame frame = new MainFrame();
-                frame.setTitle("HiVolts Game");
+                frame.setTitle("TicTacToe Game");
                 frame.setResizable(false);
-                frame.setSize(50 * DIM, 50 * DIM + 20);
-                frame.setMinimumSize(new Dimension(1000, 600 + 20));
+                frame.setSize(200 * 3 + TEXT_WIDTH, 200 * 3 + FRAME_PADDING);
+                frame.setMinimumSize(new Dimension(200 * 3 + TEXT_WIDTH, 200 * 3 + FRAME_PADDING));
                 frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
                 frame.getContentPane().add(frame.draw);
                 frame.pack();
@@ -67,6 +87,3 @@ public class MainFrame extends JFrame implements KeyListener{
     
  
 }
-
-
-
