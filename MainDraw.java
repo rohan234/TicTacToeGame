@@ -1,6 +1,10 @@
 
+import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.Stroke;
+
 import javax.swing.JComponent;
 
 public class MainDraw extends JComponent {
@@ -13,9 +17,13 @@ public class MainDraw extends JComponent {
     
     final int TEXT_PADDING = 15;
     
-    Color highlight = new Color(255, 255, 0, 127);
+    Color highlight = new Color(255, 255, 0, 50);
+    
+    final Color BEWITCHED_TREE = new Color(0x76c4ae);
     
     void paintText (Graphics g) {
+    	g.setColor(Color.black);
+    	
     	g.drawString("Movement Keys", 600 + TEXT_PADDING, 20);
         
 		g.drawString("Q: Up and Left", 600 + TEXT_PADDING, 40);
@@ -37,6 +45,8 @@ public class MainDraw extends JComponent {
     	int xPaint;
         int yPaint;
         
+        Graphics2D g2 = (Graphics2D) g;
+        
         for (int y = 0; y < 3; y++) {
         	for (int x = 0; x < 3; x++) {
         		
@@ -47,21 +57,43 @@ public class MainDraw extends JComponent {
         		if (board[y][x] == "X") { //IF the marker is a fence
         			g.setColor(Color.orange);
         			g.fillRect(xPaint,  yPaint,  width, height);
-        		} 
-        		else if (board[y][x] == "O") { //If the marker is the player
-        			g.setColor(Color.black);
-        			g.fillOval(xPaint,  yPaint,  width, height);
         			
-        			g.setColor(Color.white);
-        			g.fillOval(xPaint + 25,  yPaint + 25,  width / 4 * 3, height / 4 * 3);
+        			g.setColor(Color.black);
+        			float thickness = 25;
+        			Stroke oldStroke = g2.getStroke();
+        			g2.setStroke(new BasicStroke(thickness));
+        			g2.drawLine(xPaint + 50, yPaint + 50, xPaint + width - 50, yPaint + height - 50); //TopLeft to BotRight line
+        			g2.drawLine(xPaint + width - 50, yPaint + 50, xPaint + 50, yPaint + height - 50); //TopLeft to BotRight line
+        			g2.setStroke(oldStroke);
+        		} 
+        		
+        		else if (board[y][x] == "O") { //If the marker is the player
+        			g.setColor(BEWITCHED_TREE);
+        			g.fillRect(xPaint, yPaint, width, height);
+        			
+        			
+        			float thickness = 25;
+        			Stroke oldStroke = g2.getStroke();
+        			g2.setStroke(new BasicStroke(thickness));
+        			
+        			g.setColor(Color.black);
+        			g.drawOval(xPaint + 25,  yPaint + 25,  width / 4 * 3, height / 4 * 3);
+        			
+        			g2.setStroke(oldStroke);
+        			
+//        			g.setColor(BEWITCHED_TREE);
+//        			g.fillOval(xPaint + 50,  yPaint + 50,  width / 2, height / 2);
         		} 
         		else if (board[y][x] == "-") { //If the marker is an empty space
-        			g.setColor(Color.black);
+        			g.setColor(Color.gray);
         			g.drawRect(xPaint,  yPaint,  width, height);
         		}
         		if (board[y][x] == "+") {
         			g.setColor(highlight);
         			g.fillRect(xPaint, yPaint, width, height);
+        			
+        			g.setColor(Color.black);
+        			g.drawRect(xPaint,  yPaint,  width, height);
         		}
         		
         	}
