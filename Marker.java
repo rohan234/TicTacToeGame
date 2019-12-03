@@ -1,13 +1,13 @@
 
 public class Marker {
 
-	final int y = 0; //these variables are set to access index in a way so its readable to humans
-	final int x = 1;
+	final static int y = 0; //these variables are set to access index in a way so its readable to humans
+	final static int x = 1;
 	
 	static int[] oldPos;
 	static int[] newPos;
 	
-	String playerMarker = "X";
+	public static String playerMarker = "X";
 	
 	static int[] getPosition(String marker, String[][] board) {
 		for (int y = 0; y < 3; y++) {
@@ -60,6 +60,8 @@ public class Marker {
 		if (validMove(Board.hlBoard, newPosition)) {
 			Board.resetBoard(Board.hlBoard);
 			Board.hlBoard[newPosition[y]][newPosition[x]] = "+";
+		} else {
+			MainFrame.gameStatus = "You cannot place the marker outside of the board!";
 		}
 		
 		MainFrame.updateVisuals();
@@ -80,8 +82,14 @@ public class Marker {
 		
 	}
 	
+	public static String getCurrentPlayerMarker() {
+		
+		updatePlayerMarker();
+		return playerMarker;
+	}
 	
-	private boolean validMove(String[][] board, int[] newPosition) {
+	
+	public static boolean validMove(String[][] board, int[] newPosition) {
 		if (board[newPosition[y]][newPosition[x]] == "-") {
 			return true;
 		} else {
@@ -90,7 +98,7 @@ public class Marker {
 		
 	}
 	
-	private void updatePlayerMarker() {
+	private static void updatePlayerMarker() {
 		
 		if (MainFrame.isPlayerOneTurn) {
 			playerMarker = "O";
