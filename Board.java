@@ -1,51 +1,77 @@
 
-public class Board extends MainFrame{
+public class Marker {
 
-	/*Symbols
-	 * X: Player One
-	 * O: Player Two
-	 * -: Blank
-	 * +: Highlight
-	 */
+	final int y = 0; //these variables are set to access index in a way so its readable to humans
+	final int x = 1;
 	
-	static String[][] gameBoard = new String[3][3]; //Creates a 2d arrray for the game
-	static String[][] hlBoard = new String[3][3]; //Creates a 2d arrray for the highlight
+	static int[] oldPos;
+	static int[] newPos;
 	
-	public Board () {} //Constructor for class Board
-	
-	public static void init() {
-		resetBoard(gameBoard);
-		resetBoard(hlBoard);
-		addMarker(hlBoard, 0, 0, "+");
-		
-		addMarker(gameBoard, 0, 0, "O");
-		
-		printBoard(gameBoard);
-		System.out.println("Game initialized.");
-	}
-	
-	static void addMarker(String[][] board, int y, int x, String marker) {
-		board[y][x] = marker;
-	}
-	
-	static void resetBoard(String[][] board) {
-		/*Generates an empty board*/
+	static int[] getPosition(String marker, String[][] board) {
 		for (int y = 0; y < 3; y++) {
 			for (int x = 0; x < 3; x++) {
-				board[y][x] = "-";
+				if (board[y][x].startsWith(marker)) {
+					int[] position = {y, x};
+					return position;
+				}
 			}
 		}
+		
+		System.out.println("ERROR: UNABLE TO FIND MARKER: " + marker);
+		return null;
+	}
+		
+	public void moveUp() {
+		move(findNewPosition(/*Axis:*/ y, /*Increase:*/ false));
+	}
+	
+	public void moveDown() {
+		move(findNewPosition(/*Axis:*/ y, /*Increase:*/ true));
+	}
+	
+	public void moveLeft() {
+		move(findNewPosition(/*Axis:*/ x, /*Increase:*/ false));
 	}
 
-	static void printBoard(String[][] board) {
-		for (int y = 0; y < 3; y++) {
-			for (int x = 0; x < 3; x++) {
-
-				System.out.print(board[y][x] + " ");
-				
-			} System.out.println();//stars a new line
+	
+	public void moveRight() {
+		move(findNewPosition(/*Axis:*/ x, /*Increase:*/ true));
+	}
+	
+	
+	private int[] findNewPosition(int axis, boolean increase) {
+		oldPos = getPosition("+", Board.hlBoard);
+		newPos = oldPos;
+		
+		if (increase) {
+			newPos[axis] += 1;
+		} else {
+			newPos[axis] -= 1;
 		}
+		
+		return newPos;
+	}
+	
+	
+	private void move(int[] newPosition) {
+		
+		if (validMove(Board.hlBoard, newPosition)) {
+			Board.resetBoard(Board.hlBoard);
+			Board.hlBoard[newPosition[y]][newPosition[x]] = "+";
+		}
+		
+		MainFrame.updateVisuals();
+	}
+	
+	
+	
+	private boolean validMove(String[][] board, int[] newPosition) {
+		if (board[newPosition[y]][newPosition[x]] == "-") {
+			return true;
+		} else {
+			return false;
+		}
+		
 	}
 	
 }
-
