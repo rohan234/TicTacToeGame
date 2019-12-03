@@ -16,6 +16,8 @@ public class MainFrame extends JFrame implements KeyListener, MouseListener{
     
     public static boolean isPlayerOneTurn = true;
     
+    public static String gameStatus;
+    
     Marker highlight = new Marker();
     
     static void updateVisuals() {
@@ -44,6 +46,9 @@ public class MainFrame extends JFrame implements KeyListener, MouseListener{
         	
         } else if(e.getKeyCode() == KeyEvent.VK_SPACE) {
         	highlight.placeMarker();
+        	if (GameStatus.checkVictory(Board.gameBoard)) {
+        		System.out.println("Victory!");
+        	}
         } 
         	
     }
@@ -54,12 +59,18 @@ public class MainFrame extends JFrame implements KeyListener, MouseListener{
         // consecutive clicks made by the user 
         // show the point where the mouse is i.e 
         // the x and y coordinates 
-        System.out.println("mouse clicked at point: " + e.getX() + " " + e.getY());
+        System.out.println("mouse clicked at point: " + + e.getX() + " " + e.getY() + "mouse clicked: " + e.getClickCount());
         
         int[] clickCoordinates = {checkMouseRow(e), checkMouseColumn(e)};
         
         Board.resetBoard(Board.hlBoard);
-        Board.addMarker(Board.hlBoard, clickCoordinates[0], clickCoordinates[1], "+");
+        if (e.getClickCount() == 1) 
+        	Board.addMarker(Board.hlBoard, clickCoordinates[0], clickCoordinates[1], "+");
+        else if (e.getClickCount() == 2 && Marker.validMove(Board.gameBoard, clickCoordinates)) {
+        	Board.addMarker(Board.gameBoard, clickCoordinates[0], clickCoordinates[1], Marker.getCurrentPlayerMarker());
+        	if (GameStatus.checkVictory(Board.gameBoard)) 
+        		System.out.println("Victory!");
+        }
         updateVisuals();
     } 
     
@@ -116,6 +127,7 @@ public class MainFrame extends JFrame implements KeyListener, MouseListener{
                 
             }
         });
+        
         
         
     }
