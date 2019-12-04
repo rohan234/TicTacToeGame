@@ -20,7 +20,10 @@ public class Board extends MainFrame{
 		
 		addMarker(gameBoard, 0, 0, "O");
 		
+		addMarker(gameBoard, 1, 1, "X");
+		
 		printBoard(gameBoard);
+		printBoard(hlBoard);
 		System.out.println("Game initialized.");
 	}
 	
