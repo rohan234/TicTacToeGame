@@ -68,8 +68,10 @@ public class MainFrame extends JFrame implements KeyListener, MouseListener{
         	Board.addMarker(Board.hlBoard, clickCoordinates[0], clickCoordinates[1], "+");
         else if (e.getClickCount() == 2 && Marker.validMove(Board.gameBoard, clickCoordinates)) {
         	Board.addMarker(Board.gameBoard, clickCoordinates[0], clickCoordinates[1], Marker.getCurrentPlayerMarker());
-        	if (GameStatus.checkVictory(Board.gameBoard)) 
+        	if (GameStatus.checkVictory(Board.gameBoard)) {
         		System.out.println("Victory!");
+        	}
+        		
         }
         updateVisuals();
     } 
