@@ -20,6 +20,7 @@ public class MainFrame extends JFrame implements KeyListener, MouseListener{
     
     Marker highlight = new Marker();
     
+  public static Win testWin = new Win("DIAG_A");
     static void updateVisuals() {
     	Board.printBoard(Board.gameBoard);
     	Board.printBoard(Board.hlBoard);
