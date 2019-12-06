@@ -1,0 +1,28 @@
+
+
+import java.io.IOException;
+
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
+import javax.sound.sampled.LineUnavailableException;
+import javax.sound.sampled.UnsupportedAudioFileException;
+
+public class Sound {
+//audiofile exception checks for good audio file Ex umx file is bad we want .wav
+//IO if it fails to find the file is says an exception
+//checking if the sound chanel is being used by smth else
+	public Sound() throws UnsupportedAudioFileException, IOException, LineUnavailableException{
+		
+	}
+	public void play(String name)throws UnsupportedAudioFileException, IOException, LineUnavailableException{
+		
+		//propares file and says where it is 
+		AudioInputStream audioIn = AudioSystem.getAudioInputStream(Sound.class.getResource("/resources/" + name + ".wav"));
+		//prepares audio clip
+		Clip clip = AudioSystem.getClip();
+		//open the clip
+		clip.open(audioIn);
+		clip.start();
+	}
+}
