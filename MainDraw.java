@@ -1,3 +1,13 @@
+package game;
+
+import java.awt.Color;
+import java.awt.Graphics;
+
+import javax.swing.JPanel;
+
+import java.awt.Color;
+import java.awt.Graphics;
+import javax.swing.JComponent;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
@@ -22,7 +32,9 @@ public class MainDraw extends JComponent {
     final Color BEWITCHED_TREE = new Color(0x76c4ae);
     
     void paintVictoryLine(Graphics g) {
-    	
+ 
+    	Graphics2D g2 = (Graphics2D) g;
+    	MainFrame.testWin.draw(g2);
     }
     
     void paintText (Graphics g) {
@@ -41,11 +53,11 @@ public class MainDraw extends JComponent {
 		g.drawString("C: Down and Right", 600 + TEXT_PADDING, 200);
 		g.drawString("J: Jump", 600 + TEXT_PADDING, 220);
 		g.drawString("ENTER: restart game", 600 + TEXT_PADDING, 240);
-		g.drawString("Objective: Try not to get eaten by the Mhos. Use strategic ", 600 + TEXT_PADDING, 280);
-		g.drawString(" movements to get the mhos to run into fences. Good Luck!", 600 + TEXT_PADDING, 300);
+	
     }
     
     void paintPlayerOneMarker (Graphics g, int xPaint, int yPaint) {
+    	//thickness
     	Graphics2D g2 = (Graphics2D) g;
     	
     	g.setColor(Color.orange);
@@ -130,9 +142,8 @@ public class MainDraw extends JComponent {
         
         paintText(g);
         
+        paintVictoryLine(g);
+        
     }
 
 }
-
-
-
